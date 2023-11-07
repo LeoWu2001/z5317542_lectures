@@ -1,4 +1,4 @@
-""" week7_slides_p2.py
+""" week8_slides_p2.py
 
 Codes discussed in class during Week 8, Part 2: Time series with Pandas
 
@@ -43,10 +43,10 @@ utils.pp_cfg.df_max_cols = 10
 QAN_PRC_CSV = os.path.join(cfg.DATADIR, 'qan_prc_2020.csv')
 
 # Reading the content of a file
-# <example>
-#df0 = pd.read_csv(QAN_PRC_CSV, index_col='Date')
-#utils.pprint(df0, "df0")
-# </example>
+# # <example>
+# df0 = pd.read_csv(QAN_PRC_CSV, index_col='Date')
+# utils.pprint(df0, "df0")
+# # </example>
 
 
 # ----------------------------------------------------------------------------
@@ -98,16 +98,18 @@ date       , open   , high   , low    , close  , volume
 #
 
 # <example>
-#tsla_prc_csv = utils.csv_to_fobj(csv_cnts)
-#df = pd.read_csv(tsla_prc_csv) # -> DF
-#utils.pprint(df, "pd.read_csv(tsla_prc_cv")
-# </example>
-
-
-# Alternatively: lec_utils.csv_to_df(str) -> DF
-# <example>
-#df = utils.csv_to_df(csv_cnts)
-#utils.pprint(df)
+# tsla_prc_csv = utils.csv_to_fobj(csv_cnts)
+# df = pd.read_csv(tsla_prc_csv) # -> DF
+# utils.pprint(df, "pd.read_csv(tsla_prc_cv")
+# # </example>
+#
+#
+# # Alternatively: lec_utils.csv_to_df(str) -> DF
+# # <example>
+#
+# # implementation to the read_csv function
+# df = utils.csv_to_df(csv_cnts)
+# utils.pprint(df)
 # </example>
 
 # ---------------------------------------------------------------------------- 
@@ -161,9 +163,9 @@ df  = '?'
 # But this will:
 
 # <example>
-#tsla_prc_csv = utils.csv_to_fobj(csv_cnts)
-#df = pd.read_csv(tsla_prc_csv)
-#utils.pprint(df, "This is df:")
+tsla_prc_csv = utils.csv_to_fobj(csv_cnts)
+df = pd.read_csv(tsla_prc_csv)
+utils.pprint(df, "This is df:")
 # </example>
 
 
@@ -197,20 +199,22 @@ fmt = '%Y-%m-%d'
 # return another series with datetime objects
 
 # <example>
-#date_ser = df.loc[:, 'date'] # This is a series
-#dt_ser = pd.to_datetime(date_ser, format=fmt)
-#utils.pprint(date_ser, "df.loc[:, 'date'] is:")
-#utils.pprint(dt_ser, "Converting to datetime using `pd.to_datetime` gives:")
-# </example>
+date_ser = df.loc[:, 'date'] # This is a series
+dt_ser = pd.to_datetime(date_ser, format=fmt)
+# utils.pprint(date_ser, "df.loc[:, 'date'] is:")
+# utils.pprint(dt_ser, "Converting to datetime using `pd.to_datetime` gives:")
+# # </example>
 
 
 # We can use assignment statements to convert columns
 #
 # Convert the elements in the Date column
-#df.loc[:, 'date']  = '?'
 
-
-#utils.pprint(df, "DF after converting date column")
+# df.loc[:, 'date']  = pd.to_datetime(df.loc[:, 'date'])
+#
+# # prints a timestamp
+# # utils.pprint(df, "DF after converting date column")
+# # utils.pprint(df.iloc[0, 0], "df.iloc[0,0]")
 
 
 # ----------------------------------------------------------------------------
@@ -219,12 +223,12 @@ fmt = '%Y-%m-%d'
 # We can set the index to a column containing datetime objects
 
 # <example>
-#df = utils.csv_to_df(csv_cnts)
-#df.loc[:, 'date'] = pd.to_datetime(df.loc[:, 'date'])
-#utils.pprint(df, "DF before setting the index")
-#df.set_index('date', inplace=True)
-#utils.pprint(df, "DF after setting the index")
-#utils.pprint(df.index)
+df = utils.csv_to_df(csv_cnts)
+df.loc[:, 'date'] = pd.to_datetime(df.loc[:, 'date'])
+utils.pprint(df, "DF before setting the index")
+df.set_index('date', inplace=True)
+utils.pprint(df, "DF after setting the index")
+utils.pprint(df.index)
 # </example>
 
 
@@ -234,40 +238,44 @@ fmt = '%Y-%m-%d'
 # previously:
 
 # <example>
-#tsla_prc_csv = utils.csv_to_fobj(csv_cnts)
-#df = pd.read_csv(tsla_prc_csv)
-#df.loc[:, 'date'] = pd.to_datetime(df.loc[:, 'date'])
-#df.set_index('date', inplace=True)
+tsla_prc_csv = utils.csv_to_fobj(csv_cnts)
+df = pd.read_csv(tsla_prc_csv)
+
+# converts date column (string) to datetime
+df.loc[:, 'date'] = pd.to_datetime(df.loc[:, 'date'])
+
+# sets the index for 'date'
+df.set_index('date', inplace=True)
 # </example>
 
 # New version
 # <example>
-## We must "create a new fake CSV file" first
-#tsla_prc_csv = utils.csv_to_fobj(csv_cnts)
-#df = pd.read_csv(tsla_prc_csv, parse_dates=['date'], index_col='date')
-#utils.pprint(df)
+# We must "create a new fake CSV file" first
+tsla_prc_csv = utils.csv_to_fobj(csv_cnts)
+df = pd.read_csv(tsla_prc_csv, parse_dates=['date'], index_col='date')
+utils.pprint(df)
 # </example>
 
 # Even better, the lec_utils.csv_to_df takes the same parameters as pd.read_csv
-# <example>
-## Note that csv_cnts is a string, not an fobj
-#df = utils.csv_to_df(csv_cnts, parse_dates=['date'], index_col='date')
-#utils.pprint(df)
+<example>
+# Note that csv_cnts is a string, not an fobj
+df = utils.csv_to_df(csv_cnts, parse_dates=['date'], index_col='date')
+utils.pprint(df)
 # </example>
 
 # ----------------------------------------------------------------------------
 #   Illustrating the advantages of a datetime indexes 
 # ----------------------------------------------------------------------------
 # Select all data for a given year in one go
-df_2020  = '?'
+df_2020  = df.loc['2020']
 utils.pprint(df_2020)
 
 # Select all data for a given month
-df_2020_11  = '?'
+df_2020_11  = df.loc['2020-11']
 utils.pprint(df_2020_11)
 
 # Selecting date ranges using strings
-df_2020_11_0204  = '?'
+df_2020_11_0204  = df.loc['2020-11-02':'2020-11-04']
 utils.pprint(df_2020_11_0204)
 
 
@@ -279,11 +287,11 @@ utils.pprint(df_2020_11_0204)
 # Make sure the dataframe is sorted
 
 # <example>
-#df = utils.csv_to_df(csv_cnts, index_col='date', parse_dates=['date'])
-#df.sort_index(inplace=True)
+df = utils.csv_to_df(csv_cnts, index_col='date', parse_dates=['date'])
+df.sort_index(inplace=True)
 ## Note that pandas will use the previous date (whatever that is, by default)
-#rets = df.loc[:, 'close'].pct_change()  # <mask>
-#utils.pprint(rets)
+rets = df.loc[:, 'close'].pct_change()  # <mask>
+utils.pprint(rets)
 # </example>
 
 
@@ -292,8 +300,8 @@ utils.pprint(df_2020_11_0204)
 # (problem: does not deal with holidays)
 
 # <example>
-#rets = df.loc[:, 'close'].pct_change(freq='B')  # <mask>
-#utils.pprint(rets)
+rets = df.loc[:, 'close'].pct_change(freq='B')  # <mask>
+utils.pprint(rets)
 # </example>
 
 

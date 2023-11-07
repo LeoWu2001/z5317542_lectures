@@ -23,7 +23,7 @@ I will talk about the `lec_utils.py` module during class
 """
 import datetime as dt
 
-from webinars import lec_
+from webinars import lec_utils as utils
 
 # Set the options for this part of the lecture
 # (all this does is to modify the behavior of pprint)
@@ -64,8 +64,8 @@ utils.pp_cfg.show_type = True
 # returns an instance of `dt.datetime` representing the current date/time.
 
 # Instance of `dt.datetime` with the current date/time
-dt_now = '?'
-
+dt_now = dt.datetime.now()
+utils.pprint(dt_now, "dt_now")
 
 # Aside: How can we print a representation of an object?
 #
@@ -85,7 +85,7 @@ dt_now = '?'
 
 # <example>
 #print("str(dt.datetime.now()) is:")
-#print(str(dt_now))
+# print(str(dt_now))
 # </example>
 
 
@@ -151,19 +151,22 @@ dt0 = dt.datetime(
     second=0, 
     microsecond=0)
 
-#utils.pprint(dt0, "dt0 is:\n", pretty=False)
+utils.pprint(dt0, "dt0 is:\n", pretty=False)
 
 
 # We do not need to specify all the parameters (year, month, day are required)
 # Create a dt.datetime obj with year=2022, month=11, day=1
-dt1 = '?'
+dt1 = dt.datetime(
+    year=2022,
+    month=11,
+    day=1)
 
 
-#utils.pprint(dt1, "dt1 is:\n", pretty=False)
-#utils.pprint(dt1.year, 'dt1.year')
-#utils.pprint(dt1.month, 'dt1.month')
-#utils.pprint(dt1.day, 'dt1.day')
-#utils.pprint(dt1.hour, 'dt1.hour')
+# utils.pprint(dt1, "dt1 is:\n", pretty=False)
+# # utils.pprint(dt1.year, 'dt1.year')
+# utils.pprint(dt1.month, 'dt1.month')
+# utils.pprint(dt1.day, 'dt1.day')
+# # utils.pprint(dt1.hour, 'dt1.hour')
 
 
 # ---------------------------------------------------------------------------- 
@@ -172,20 +175,19 @@ dt1 = '?'
 # Lets create two other datetime instances:
 #   dt0 --> 2019-12-31 00:00:00
 #   dt1 --> 2020-01-01 00:00:00
-dt0  = '?'
-dt1  = '?'
+dt0 = dt.datetime(year=2019, month=12, day=31)
+dt1 = dt.datetime(year=2020, month=1, day=1)
 
 
-#utils.pprint(dt0, "dt0 is:\n", pretty=False)
-#utils.pprint(dt1, "dt1 is:\n", pretty=False) 
-
+# utils.pprint(dt0, "dt0 is:\n", pretty=False)
+# utils.pprint(dt1, "dt1 is:\n", pretty=False)
 
 # Operations between datetime objects will return timedelta objects
-#delta  = dt1 - dt0
+delta = dt1 - dt0
 
 
-#msg = f"The operation:\n  {repr(dt1)} \n    - {repr(dt0)}\ngives:"
-#utils.pprint(delta, msg=msg)
+msg = f"The operation:\n  {repr(dt1)} \n    - {repr(dt0)}\ngives:"
+utils.pprint(delta, msg=msg)
 
 # Let's create another timedelta using
 #
@@ -203,35 +205,39 @@ msg = f'''Given:
     end: {end}
 then `new_delta` is:
 '''
-#utils.pprint(new_delta, msg, )
+utils.pprint(new_delta, msg, )
 
 
 # Add 12 hours to some date
 #   - `start` will be the starting date (same as above)
 #   - `delta` will be a period of 12 hours (same as new_delta)
 #   - `new_end` will be the ending date (same as `end` above)
-delta  = '?'
-
+start = dt.datetime(year=2020, month=12, day=31, hour=0)
+delta = dt.timedelta(hours=12)
+utils.pprint(delta, pretty=False)
+# calculating days and seconds
+utils.pprint(delta.days, "delta.days")
+utils.pprint(delta.seconds, "delta.seconds")
 
 # This is the new date
 # <example>
-#new_end = start + delta
+new_end = start + delta
 # </example>
 
-# <example>
-#msg = f'''Given:
+# # <example>
+# msg = f'''Given:
 #    start: {repr(start)}
 #    delta: {repr(delta)}
-#If
+# If
 #    new_end = start + delta
 #
-#then `repr(new_end)` is:
+# then `repr(new_end)` is:
 #    {repr(new_end)}
 #
-#and `str(new_end)` is:
+# and `str(new_end)` is:
 #    {str(new_end)}
-#'''
-#utils.pprint(msg, show_type=True)
+# '''
+# utils.pprint(msg, show_type=True)
 # </example>
 
 # ----------------------------------------------------------------------------
@@ -259,9 +265,19 @@ delta  = '?'
 # ----------------------------------------------------------------------------
 # 1. For how many seconds have you been alive?
 
-
+birth = dt.datetime(year=2001, month=9, day=19, hour=2, minute=37)
+time_now = dt.datetime.now()
+alive = time_now - birth
+seconds_alive = (alive.days * 24 * 60 * 60) + alive.seconds
+utils.pprint(seconds_alive, "How many seconds have you been alive?")
 
 # 2. How old will you be in 1,340 days
+delta = dt.timedelta(days=1340)
+future = time_now + delta
+alive_future = future - birth
+age = alive_future.days/365
+utils.pprint(age, "age")
+
 
 
 # ---------------------------------------------------------------------------- 
@@ -293,22 +309,18 @@ delta  = '?'
 # Create a datetime object representing
 #   2020-12-31 00:00:00
 # <example>
-#date = dt.datetime(year=2020, month=12, day=31, hour=0)
-#utils.pprint(date, "date is:")
+date = dt.datetime(year=2020, month=12, day=31, hour=0)
+utils.pprint(date, "date is:")
 # </example>
 
 # Convert to a **string** with the following formats
 #   2020-12-31
 #   Dec 31, 2020
-s1  = '?'
-# <example>
-#s1 = date.strftime('%Y-%m-%d')
-# </example>
-#print(s1)
-s2  = '?'
-# <example>
-#s2 = date.strftime('%b %d, %Y')
-# </example>
-#print(s2)
+s1  = date.strftime('%Y-%m-%d')
+print(s1)
+
+s2  = date.strftime('%b %d, %Y')
+print(s2)
+
 
 
