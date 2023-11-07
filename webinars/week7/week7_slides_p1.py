@@ -1162,9 +1162,7 @@ printit(res)
 #
 rstart = '2020-01-10'
 rend = '2020-01-15'
-res = df[rstart:rend]
-
-
+# res = df[rstart:rend]
 
 printit(res)
 
