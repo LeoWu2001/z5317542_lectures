@@ -106,21 +106,21 @@ print(df)
 # ser.loc[label] --> scalar if label in index, error otherwise
 
 # Set `x` below to be the price on 2020-01-10
-x  = '?'
+x = '2020-01-10'
 
 # The following will raise a KeyError
-#ser.loc['3000-01-10']
+# ser.loc['3000-01-10']
 
-
-# Using .loc to set elements
-# Copy the series
-ser2 = ser.copy()
-#print(ser2)
-
-
-# Set the price for 2020-01-02 to zero
-#ser2.loc['2020-01-02'] = 0
-#print(ser2)
+#
+# # Using .loc to set elements
+# # Copy the series
+# ser2 = ser.copy()
+# print(ser2)
+#
+#
+# # Set the price for 2020-01-02 to zero
+# ser2.loc['2020-01-02'] = 0
+# print(ser2)
 
 
 # 1.1.2 Series.loc: Selection using sequence of labels
@@ -137,8 +137,11 @@ x  = '?'
 # Importantly, the endpoint will be included when selecting with slices!
 
 # Set x so it contains all prices from '2020-01-03' to (and including) '2020-01-10'
-x  = '?'
-#print(x)
+start = '2020-01-03'
+end = '2020-01-10'
+
+x  = ser.loc[start:end]
+print(x)
 
 
 # 1.2 DataFrames
@@ -148,15 +151,18 @@ x  = '?'
 # A single row and column labels will return a single value (scalar)
 
 # For instance, selecting the close price on January 3, 2020
-x  = '?'
-#print(x)  # --> 7.19
+column_label = 'Close'
+row_label = '2020-01-03'
+x = df.loc[row_label, column_label]
+
+print(x)  # --> 7.19
 
 # A single row **or** a single column label will return a series:
 # The following will return a series corresponding to the column "Close"
-x  = '?'
-#print(x)
-
-#print(type(df.loc[:,'Close'])) # --> <class 'pandas.core.series.Series'>
+x  = df.loc[:, 'Close']
+# print(x)
+#
+# print(type(df.loc[:,'Close'])) # --> <class 'pandas.core.series.Series'>
 
 y  = '?'
 #print(y)
@@ -177,8 +183,9 @@ y  = '?'
 
 # 1.2.2 Dataframe.loc: Selection using sequence of labels
 # Set x so it contains the closing prices for '2020-01-02' and '2020-01-03'
-x  = '?'
-#print(x)
+x  = df.loc[['2020-01-02', '2020-01-03'], 'Close']
+
+# print(x)
 
 
 # 1.2.3 Dataframe.loc: Selection using slices
@@ -304,8 +311,8 @@ x  = '?'
 
 
 # First column (and all rows):
-x  = '?'
-#print(x)
+x  = df.iloc[:, 0]
+# print(x)
 
 
 # 2.2.2 Dataframe.iloc: Selection using sequence of indices
@@ -390,8 +397,8 @@ x  = '?'
 # | series[label] | scalar value | Label must exist, otherwise KeyError |
 
 # Set `x` to be the price for '2020-01-13'
-x  = '?'
-#print(x) # --> 7.02
+x  = ser['2020-01-13']
+# print(x) # --> 7.02
 
 # Try using an index label that does not exist, It will raise a KeyError
 # x = ser['3000-01-10']
@@ -405,8 +412,8 @@ x  = '?'
 
 
 # Set `x` to be a series with the first two rows of `ser`
-x  = '?'
-#print(x)
+x  = ser.iloc[0:2]
+# print(x)
 
 # All labels must exist. The following will raise a KeyError because a label
 # is not part of ser.index
@@ -425,8 +432,8 @@ x  = '?'
 # elements between `start_label` and `end_label` (including endpoints)
 
 # Set `x` to include all obs between  '2020-01-13' and '2020-01-14'
-x  = '?'
-#print(x)
+x  = ser.loc['2020-01-13':'2020-01-14']
+print(x)
 
 
 # (2) If either `start_label` or `end_label` not included in the index, the

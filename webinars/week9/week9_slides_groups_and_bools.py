@@ -215,14 +215,14 @@ def groupby_example0():
     # #utils.pprint(dic, "This is dic:\n")
     # </example>
 
-    # Then using the apply method
-    df = mk_rec_df0()
-    groups = df.groupby(by='firm')
-    res  = '?'
-    # <example>
-    res = groups.apply(len) # <mask>
-    # </example>
-    utils.pprint(res,  "groups.apply(len):\n")
+    # # Then using the apply method
+    # df = mk_rec_df0()
+    # groups = df.groupby(by='firm')
+    # res  = '?'
+    # # <example>
+    # res = groups.apply(len) # <mask>
+    # # </example>
+    # utils.pprint(res,  "groups.apply(len):\n")
 
 
     # You can apply your own functions
@@ -233,14 +233,14 @@ def groupby_example0():
         df.sort_index(inplace=True)
         return df.iloc[-1]
 
-    df = mk_rec_df0()
-    groups = df.groupby(by='firm')
-    res  = '?'
-    # <example>
+    # df = mk_rec_df0()
+    # groups = df.groupby(by='firm')
+    # res  = '?'
+    # # <example>
     # res = groups.apply(get_last) # <mask>
-    # <example>
-    utils.pprint(res,  "groups.apply(get_last):\n")
-
+    # # <example>
+    # utils.pprint(res,  "groups.apply(get_last):\n")
+    #
 
     # Some group by operations are so common that Pandas implements them directly
     # on any created instance of `GroupBy`. Here are some examples:
@@ -250,15 +250,15 @@ def groupby_example0():
     # - `GroupBy.last`: select last of observation in each group
 
 
-    # Count the number of observations inside each group:
-    # (includes missing values if any)
-    df = mk_rec_df0() 
-    groups = df.groupby('firm')
-    res  = '?'
-    # <example>
-    res = groups.count()
-    # </example>
-    utils.pprint(res,  "groups.count():\n")
+    # # Count the number of observations inside each group:
+    # # (includes missing values if any)
+    # df = mk_rec_df0()
+    # groups = df.groupby('firm')
+    # res  = '?'
+    # # <example>
+    # res = groups.count()
+    # # </example>
+    # utils.pprint(res,  "groups.count():\n")
 
 
     # Select last obs by group 
@@ -312,6 +312,19 @@ def groupby_example1():
     utils.pprint(new_df,  "res.reset_index():\n")
     # </example>
 
+    # Reversing the string for column label
+
+    first_col = df.columns[0]
+
+    for rows in df.index:
+        # First Criteria
+        if 0 <= first_col <= 0.5:
+            # sums all the columns in this row
+            first_col = df.iloc[row].sum(axis=1)
+            return
+            # Second criteria
+        if 1 <= first_col <= 2:
+            first_col = -99
 
 
 # ----------------------------------------------------------------------------
